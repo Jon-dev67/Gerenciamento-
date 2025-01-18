@@ -1,0 +1,46 @@
+  {%  extends "base.html"%}
+
+   {% block titulo %}
+      clientes
+      {% endblock %}
+    
+    {% block contexto %}
+        <!-- Hero Section -->
+    
+   <div class="hero">
+     <h1 style="color: white;">Clientes</h1>
+      <p>para cadastrar um cliente clique no botão abaixo</p>
+        <a href="{{ url_for('cadastro_cliente')}}" class="btn btn-success btn-lg mt-3">cadastrar novo cliente</a>
+    </div>
+        <table class="table table-bordered table-striped table table-dark" >
+            <thead>
+                <tr>
+                  <th>id</th>
+                  <th>nome</th>
+                    <th>telefone</th>
+                    <th>email</th>
+                    <th>endereço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                 {% for clie in cliente %}
+                <tr>
+                    <td>{{clie.id}}</td>
+                    <td>{{clie.nome}}</td>
+                    <td>{{clie.telefone}}</td>
+                    <td>{{clie.email}}</td>
+                    <td>{{clie.endereco}}</td>
+                    <td>
+                   <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                  <form action="{{ url_for('delete_cliente', cliente_id=clie.id) }}" method="POST" style="display:inline;">
+    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+</form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+  {%  endblock %}
