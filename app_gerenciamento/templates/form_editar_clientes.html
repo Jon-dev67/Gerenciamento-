@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Editar cliente
+{% endblock %}
+
+{% block contexto %}
+ 
+<div class="hero text-center">
+  <h1 class="text-white">Alterando dados do formulario do  Cliente.</h1>
+  <p class="text-light">Preencha as informações abaixo para alterar o cadastro do  Cliente.</p>
+</div>
+<form method="post">
+    <div class="mb-3">
+  <label for="nome" class="form-label">Nome:</label>
+  <input type="text" id="nome" name="nome" value="{{ editar.nome }}" class="form-control" required>
+</div>
+
+<div class="mb-3">
+  <label for="telefone" class="form-label">Telefone:</label>
+  <input type="text" id="telefone" name="telefone" value="{{ editar.telefone }}" class="form-control" required>
+</div>
+
+<div class="mb-3">
+  <label for="email" class="form-label">E-mail:</label>
+  <input type="text" id="email" name="email" value="{{ editar.email }}" class="form-control" required>
+</div>
+
+<div class="mb-3">
+  <label for="endereco" class="form-label">Endereço:</label>
+  <input type="text" id="endereco" name="endereco" value="{{ editar.endereco }}" class="form-control" required>
+</div>
+<button type="submit" class="btn btn-warning btn-sm w-100">Salvar</button>
+</form>
+
+
+{% endblock %}

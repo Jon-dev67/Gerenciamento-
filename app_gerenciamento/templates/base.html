@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Paleta em tons de azul e verde claro */
+        body {
+            background-color: #1a1a2e; /* Azul escuro */
+            color: #eafaf1; /* Verde claro */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://images.pexels.com/photos/1509534/pexels-photo-1509534.jpeg'); /* Caminho da imagem */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-attachment: fixed; /* Mantém a imagem fixa ao rolar */
+        }
+        .navbar {
+            background-color: #162447; /* Azul escuro */
+        }
+        .navbar-brand, .nav-link {
+            color: #eafaf1 !important; /* Verde claro */
+        }
+        .nav-link:hover {
+            color: #1f7a8c !important; /* Azul esverdeado */
+        }
+        .hero {
+            background: linear-gradient(135deg, #162447, #1f4068); /* Gradiente em tons de azul */
+            padding: 50px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #eafaf1; /* Verde claro */
+        }
+        .hero h1 {
+            color: #1f7a8c; /* Azul esverdeado */
+        }
+        .hero p {
+            color: #a9d8b5; /* Verde suave */
+        }
+        .form-control, .btn {
+            border-radius: 10px;
+        }
+        .btn-info {
+            background-color: #1f7a8c; /* Azul esverdeado */
+            border: none;
+        }
+        .btn-info:hover {
+            background-color: #145a63; /* Azul escuro */
+        }
+        .btn-danger {
+            background-color: #a9d8b5; /* Verde suave */
+            border: none;
+        }
+        .btn-danger:hover {
+            background-color: #7cb694; /* Verde mais forte */
+        }
+        .table-dark {
+            background-color: #1a1a2e; /* Azul escuro */
+            border: 1px solid #1f4068; /* Azul mais claro */
+        }
+        .table-dark th, .table-dark td {
+            color: #eafaf1; /* Verde claro */
+        }
+        .alert {
+            border-radius: 10px;
+            background: linear-gradient(135deg, #1f7a8c, #a9d8b5); /* Azul esverdeado e verde claro */
+            color: #1a1a2e; /* Azul escuro */
+            border: 1px solid #1f4068;
+        }
+        .alert-dismissible .btn-close {
+            color: #1a1a2e; /* Azul escuro */
+        }
+        .profile-img {
+            width: 100%; /* Largura total */
+            height: 56px; /* Altura igual à navbar */
+            object-fit: cover; /* Ajusta a imagem para cobrir o espaço */
+        }
+        a {
+            text-decoration: none;
+        }
+           .card-agendamento {
+        background: rgba(51, 51, 51, 0.7); /* Fundo semitransparente */
+        border: 1px solid rgba(255, 255, 255, 0.2); /* Bordas claras */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Sombra */
+        transition: background 0.3s ease, box-shadow 0.3s ease; /* Transição suave */
+    }
+
+    /* Efeito no hover para os cards */
+    .card-agendamento:hover {
+        background: rgba(51, 51, 51, 0.9); /* Fundo mais opaco ao passar o mouse */
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4); /* Sombra mais intensa */
+    }
+</style>
+</head>
+<body>
+ 
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Sistema de Gerenciamento</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('home_page') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('agendamento_page') }}">Agendamentos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('clientes_page') }}">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cadastro_cliente') }}">Cadastrar Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('form_agendamento_page') }}">Criar Agendamento</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('cad_usu_page') }}">Cadastrar-se</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('page_login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('page_logout') }}">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {% with messages=get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
+    <div class="container my-4">
+        {% block contexto %}{% endblock %}
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

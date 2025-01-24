@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+
+{% block titulo %}
+Clientes
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+  <h1 style="color: white;">Clientes</h1>
+  <p>Clique no botão abaixo para cadastrar um novo cliente.</p>
+  <a href="{{ url_for('cadastro_cliente') }}" class="btn btn-info btn-lg mt-3">Cadastrar Cliente</a>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    {% for cliente in cliente %}
+    <div class="col-md-4 mb-4">
+      <div class="card text-white bg-dark">
+        <div class="card-body">
+          <h5 class="card-title">{{ cliente.nome }}</h5>
+          <p class="card-text"><strong>Telefone:</strong> {{ cliente.telefone }}</p>
+          <p class="card-text"><strong>E-mail:</strong> {{ cliente.email }}</p>
+          <p class="card-text"><strong>Endereço:</strong> {{ cliente.endereco }}</p>
+          <div class="d-flex justify-content-between">
+            <a href="{{ url_for('update_Cliente', id=cliente.id) }}" class="btn btn-warning btn-sm">Editar</a>
+            <form action="{{ url_for('delete_cliente', id_cliente=cliente.id) }}" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

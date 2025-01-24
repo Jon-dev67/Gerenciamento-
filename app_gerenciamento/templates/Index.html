@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Página Inicial
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+  <h1 style="color: white;">Bem-vindo(a) ao Sistema de Gestão</h1>
+  <p>Gerencie seus clientes, serviços e agendamentos de forma prática e eficiente.</p>
+</div>
+
+<div class="container mt-5 text-center">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <a href="{{ url_for('clientes_page') }}" class="card text-light p-4 text-decoration-none shadow-sm" style="background: rgba(51, 51, 51, 0.8); border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+        <h3>Clientes</h3>
+        <p>Visualize e gerencie seus clientes cadastrados.</p>
+      </a>
+    </div>
+  
+
+    <div class="col-md-4 mb-4">
+      <a href="{{ url_for('servico_page') }}" class="card text-light p-4 text-decoration-none shadow-sm" style="background: rgba(51, 51, 51, 0.8); border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+        <h3>Serviços</h3>
+        <p>Gerencie os serviços oferecidos pela empresa.</p>
+      </a>
+    </div>
+    
+    <div class="col-md-4 mb-4">
+      <a href="{{ url_for('agendamento_page') }}" class="card text-light p-4 text-decoration-none shadow-sm" style="background: rgba(51, 51, 51, 0.8); border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);">
+        <h3>Agendamentos</h3>
+        <p>Agende serviços de forma simples e rápida.</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+  <div class="mt-5">
+    <p class="text-light">Precisa de ajuda? <a href="#" class="text-info">Entre em contato</a></p>
+  </div>
+</div>
+{% endblock %}
+
+
+    

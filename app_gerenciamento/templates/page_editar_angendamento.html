@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Editar Agendamento
+{% endblock %}
+
+{% block contexto %}
+<div class="hero text-center">
+  <h1 class="text-white">Editar Agendamento</h1>
+  <p class="text-light">Preencha as informações abaixo para editar o agendamento.</p>
+</div>
+
+    <form method="POST">
+      <div class="mb-3">
+        <label for="id_cliente" class="form-label">ID Cliente:</label>
+        <input type="text" id="id_cliente" name="id_cliente" value="{{ editar.id_cliente }}" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_servico" class="form-label">ID Serviço:</label>
+        <input type="text" id="id_servico" name="id_servico" value="{{ editar.id_servico }}" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="id_data" class="form-label">Data:</label>
+        <input type="text" id="id_data" name="id_data" value="{{ editar.id_data }}" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="hora" class="form-label">hora:</label>
+        <input type="text" id="hora" name="hora" value="{{ editar.hora }}" class="form-control" required>
+      </div>
+        <div class="mb-3">
+        <label for="status" class="form-label">Status:</label>
+        <input type="text" id="status" name="status" value="{{ editar.status }}" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-warning btn-sm w-100">Salvar</button>
+    </form>
+{% endblock %}

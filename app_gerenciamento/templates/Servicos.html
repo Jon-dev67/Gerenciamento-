@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block titulo %}
+Cadastro de Serviços
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+  <h1 style="color: white;">adicionar Serviço</h1>
+  <p>Preencha as informações abaixo para adicionar um serviço.</p>
+</div>
+
+<div class="container mt-4">
+  <form action="{{ url_for('servico_page') }}" method="POST" class="form-register">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+      {{ form.descricao.label }}
+      {{ form.descricao(class_="form-control", placeholder="descreva o serviço por favor.") }}
+    </div>
+    <div class="mb-3">
+      {{ form.preco.label }}
+      {{ form.preco(class_="form-control", placeholder="valor:") }}
+    </div>
+    <div class="mb-3">
+      {{ form.duracao.label }}
+      {{ form.duracao(class_="form-control", placeholder="Informe o tempo que em média leva para a conclusão do serviço") }}
+    </div>
+    
+
+    <button type="submit" class="btn btn-info btn-lg w-100">salvar</button>
+  </form>
+</div>
+{% endblock %}

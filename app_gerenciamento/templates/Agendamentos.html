@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Agendamentos
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+    <h1 style="color: white;">Agendamentos</h1>
+    <p>Para criar um novo agendamento, clique no botão abaixo.</p>
+    <a href="{{ url_for('form_agendamento_page') }}" class="btn btn-info btn-lg mt-3">Novo Agendamento</a>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+        {% for clie in agend %}
+        <div class="col-md-4 mb-4">
+            <div class="card text-white bg-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Agendamento ID: {{ clie.id }}</h5>
+                    <p class="card-text"><strong>Cliente:</strong> {{ clie.id_cliente }}</p>
+                    <p class="card-text"><strong>Serviço:</strong> {{ clie.id_servico }}</p>
+                    <p class="card-text"><strong>Data:</strong> {{ clie.id_data }}</p>
+                    <p class="card-text"><strong>Hora:</strong> {{ clie.hora }}</p>
+                    <p class="card-text"><strong>Status:</strong> {{ clie.status }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('update', id=clie.id) }}" class="btn btn-warning btn-sm">Editar</a>
+                        <form action="{{ url_for('delete_agendamento', agendamento_id=clie.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este agendamento?')">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

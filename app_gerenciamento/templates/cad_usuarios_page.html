@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Cadastro de Usuário
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+  <h1 style="color: white;">Cadastro de Usuário</h1>
+  <p>Crie sua conta para acessar a aplicação.</p>
+</div>
+<div class="container" style="display: flex; justify-content: center; align-items: center;">
+    <img class="rounded-circle " src="{{ url_for('static', filename='imagens/img.jpg') }}" style="width: 100px;">
+    </div>
+
+<div class="container mt-4">
+  <form action="/cad_usuario" method="POST" class="form-register">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+      {{ form.usuario.label(class="form-label text-light") }}
+      {{ form.usuario(class="form-control", placeholder="Digite seu nome de usuário") }}
+    </div>
+    <div class="mb-3">
+      {{ form.email.label(class="form-label text-light") }}
+      {{ form.email(class="form-control", placeholder="Digite seu e-mail") }}
+    </div>
+    <div class="mb-3">
+      {{ form.senha.label(class="form-label text-light") }}
+      {{ form.senha(class="form-control", placeholder="Digite sua senha") }}
+    </div>
+
+    <button type="submit" class="btn btn-info btn-lg w-100">Cadastrar</button>
+  </form>
+
+  <div class="mt-4 text-center">
+    <p class="text-light">Já tem cadastro? <a href="{{ url_for('page_login') }}" class="text-info">Faça login</a></p>
+  </div>
+</div>
+{% endblock %}

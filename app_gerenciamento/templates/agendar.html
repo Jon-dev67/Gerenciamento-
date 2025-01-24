@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Agendar Serviço
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+  <h1 style="color: white;">Agendar Serviço</h1>
+  <p>Preencha as informações abaixo para criar um novo agendamento.</p>
+</div>
+
+<div class="container mt-4">
+  <form action="{{ url_for('form_agendamento_page') }}" method="POST" class="form-register">
+    {{ form.hidden_tag() }}
+    
+    <div class="mb-3">
+      {{ form.cliente.label }}
+      {{ form.cliente(class_="form-control", placeholder="Selecione o cliente") }}
+    </div>
+    <div class="mb-3">
+      {{ form.servico.label }}
+      {{ form.servico(class_="form-control", placeholder="Selecione o serviço") }}
+    </div>
+    <div class="mb-3">
+      {{ form.Data_servico.label }}
+      {{ form.Data_servico(class_="form-control", placeholder="Informe a data") }}
+    </div>
+    <div class="mb-3">
+      {{ form.hora.label }}
+      {{ form.hora(class_="form-control", placeholder="Informe a hora") }}
+    </div>
+    <div class="mb-3">
+      {{ form.status.label }}
+      {{ form.status(class_="form-control", placeholder="Informe a hora") }}
+    </div>
+
+    <button type="submit" class="btn btn-info btn-lg w-100">Agendar</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+Login
+{% endblock %}
+
+{% block contexto %}
+<div class="hero">
+    <h1>Faça o Login</h1>
+    <p>Gerencie seus agendamentos e clientes com facilidade.</p>
+</div>
+
+<div class="container" style="display: flex; justify-content: center; align-items: center;">
+    <img class="rounded-circle" src="{{ url_for('static', filename='imagens/img.jpg') }}" style="width: 100px;">
+    </div>
+
+<div class="container text-center">
+    <form action="/login" method="POST" class="mx-auto" style="max-width: 400px;">
+        {{ form.hidden_tag() }}
+        {{ form.usuario.label(class="form-label") }}
+        {{ form.usuario(class="form-control", placeholder="Usuário") }}
+        <br>
+        {{ form.senha.label(class="form-label") }}
+        {{ form.senha(class="form-control", placeholder="Senha") }}
+        <br>
+        <button type="submit" class="btn btn-info btn-lg w-100">Entrar</button>
+    </form>
+    <div class="mt-4">
+        <p>Não tem cadastro? <a href="{{ url_for('cad_usu_page') }}" class="text-info">Cadastre-se</a></p>
+    </div>
+</div>
+{% endblock %}
