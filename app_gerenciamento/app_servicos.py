@@ -6,6 +6,9 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import Length, Email, DataRequired,ValidationError
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_user, UserMixin, logout_user, login_required, current_user
+import csv
+from flask import make_response
+from fpdf import FPDF
 
 #configurando a aplicção
 app = Flask(__name__)
@@ -39,6 +42,8 @@ class Servico(db.Model):
     descricao = db.Column(db.String(length=50), nullable=False, unique=True)
     preco = db.Column(db.Integer, nullable=False)
     duracao = db.Column(db.String(length=50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('usu.id'), nullable=False)  # Adiciona a referência
+    user = db.relationship('Usu', backref=db.backref('agend_servico', lazy=True))
 
 class Agendamento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -155,13 +160,12 @@ class Cad_servico(FlaskForm):
   submit = SubmitField(label="cadastrar serviço")
   
 
-
 # Rotas
 @app.route("/")
 def home_page():
   total_clientes = Cliente.query.count()
   total_agenda = Agendamento.query.count()
-  return render_template("index.html", total_clientes=total_clientes, total_agenda=total_agenda)
+  return render_template("Index.html", total_clientes=total_clientes, total_agenda=total_agenda)
 
 @app.route("/clientes")
 @login_required
@@ -178,12 +182,19 @@ def servico_page():
       descricao = form.descricao.data,
       preco = form.preco.data,
       duracao = form.duracao.data,
+      user_id=current_user.id
       )
     db.session.add(add_dados)
-    db.commit()
+    db.session.commit()
     flash("serviço cadastrado com sucesso!",category="success")
-    return redirect(url_for("home_page"))
+    return redirect(url_for("Servico_agendamento"))
   return render_template("Servicos.html",form=form)
+  
+@app.route("/serv-agendado")
+@login_required
+def Servico_agendamento():
+  agend = Servico.query.filter_by(user_id=current_user.id).all()
+  return render_template("servicos-cadastrados.html",agend=agend)
 
 @app.route("/Agendar")
 @login_required
@@ -327,6 +338,65 @@ def update_Cliente(id):
     flash("alterações realizadas com sucesso!",category="success")
     return redirect(url_for("clientes_page"))
   return render_template("form_editar_clientes.html",editar=editar)
+
+
+import csv
+import io
+from flask import make_response
+
+@app.route("/download/csv/<string:modelo>")
+@login_required
+def download_csv(modelo):
+    if modelo == "clientes":
+        dados = Cliente.query.filter_by(user_id=current_user.id).all()
+        headers = ["ID", "Nome", "Telefone", "Email", "Endereço"]
+        rows = [[dado.id, dado.nome, dado.telefone, dado.email, dado.endereco] for dado in dados]
+    elif modelo == "agendamentos":
+        dados = Agendamento.query.filter_by(user_id=current_user.id).all()
+        headers = ["ID", "Cliente", "Serviço", "Data", "Hora", "Status"]
+        rows = [[dado.id, dado.id_cliente, dado.id_servico, dado.id_data, dado.hora, dado.status] for dado in dados]
+    else:
+        flash("Modelo inválido!", category="danger")
+        return redirect(url_for("home_page"))
+
+    # Usar io.StringIO para criar um buffer de arquivo em memória
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(headers)  # Escreve os cabeçalhos no CSV
+    writer.writerows(rows)    # Escreve os dados no CSV
+    output.seek(0)  # Move o cursor para o início do arquivo
+
+    # Configurar a resposta para download
+    response = make_response(output.getvalue())
+    response.headers["Content-Disposition"] = f"attachment; filename={modelo}.csv"
+    response.headers["Content-Type"] = "text/csv"
+    return response
+
+@app.route("/download/pdf/<string:modelo>")
+@login_required
+def download_pdf(modelo):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+
+    if modelo == "clientes":
+        dados = Cliente.query.filter_by(user_id=current_user.id).all()
+        pdf.cell(200, 10, txt="Lista de Clientes", ln=True, align="C")
+        for dado in dados:
+            pdf.cell(200, 10, txt=f"{dado.id} - {dado.nome} - {dado.telefone} - {dado.email} - {dado.endereco}", ln=True)
+    elif modelo == "agendamentos":
+        dados = Agendamento.query.filter_by(user_id=current_user.id).all()
+        pdf.cell(200, 10, txt="Lista de Agendamentos", ln=True, align="C")
+        for dado in dados:
+          pdf.cell(200, 10, txt=f"{dado.id} - Cliente: {dado.id_cliente} - Serviço: {dado.id_servico} - Data: {dado.id_data} - Hora: {dado.hora} - Status: {dado.status}", ln=True)
+    else:
+        flash("Modelo inválido!", "danger")
+        return redirect(url_for("home_page"))
+
+    response = make_response(pdf.output(dest="S").encode("latin1"))
+    response.headers["Content-Disposition"] = f"attachment; filename={modelo}.pdf"
+    response.headers["Content-Type"] = "application/pdf"
+    return response
 
 
 if __name__ == "__main__":

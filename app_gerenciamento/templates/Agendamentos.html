@@ -10,7 +10,7 @@ Agendamentos
     <p>Para criar um novo agendamento, clique no botão abaixo.</p>
     <a href="{{ url_for('form_agendamento_page') }}" class="btn btn-info btn-lg mt-3">Novo Agendamento</a>
 </div>
-
+<hr>
 <div class="container mt-4">
     <div class="row">
         {% for clie in agend %}
@@ -26,7 +26,7 @@ Agendamentos
                     <div class="d-flex justify-content-between">
                         <a href="{{ url_for('update', id=clie.id) }}" class="btn btn-warning btn-sm">Editar</a>
                         <form action="{{ url_for('delete_agendamento', agendamento_id=clie.id) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este agendamento?')">Excluir</button>
+                            <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Tem certeza que deseja excluir este agendamento?')">Excluir</button>
                         </form>
                     </div>
                 </div>
@@ -35,4 +35,9 @@ Agendamentos
         {% endfor %}
     </div>
 </div>
+<hr>
+<a href="{{ url_for('download_csv', modelo='agendamentos') }}" class="btn btn-primary">Baixar Agendamentos (CSV)</a>
+<hr>
+<a href="{{ url_for('download_pdf', modelo='agendamentos') }}" class="btn btn-success">Baixar Agendamentos (PDF)</a>
+<hr>
 {% endblock %}
